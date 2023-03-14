@@ -1,0 +1,7 @@
+{
+    "games": [
+        { "id": 1, "name": "GTA", "year": "2010", "price": "999" },
+        { "id": 2, "name": "Mass Effect", "year": "2015", "price": "9999" },
+        { "id": 3, "name": "Atomic Heart", "year": "2023", "price": "99999" }
+    ]    
+  }
