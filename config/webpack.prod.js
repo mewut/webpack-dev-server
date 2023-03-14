@@ -1,23 +1,15 @@
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TerserWebpackPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = {
-    mode: 'development',
+    mode: 'production',
     entry: {
         main: path.resolve(__dirname, '../src/index.js'),
     },
-    devtool: 'inline-source-map',
-    devServer: {
-        static: {
-            directory: path.resolve(__dirname, "../dist"),
 
-        },
-        // historyApiFallback: true,
-        hot: true,
-        port: 8080,
-        open: true,
-    },
     output: {
         path: path.resolve(__dirname, '../dist'),
         filename: 'main.js',
@@ -28,10 +20,12 @@ module.exports = {
             template: "./src/index.pug",
             filename: "index.html"
         }),
+        new CssMinimizerPlugin(),
+        new TerserWebpackPlugin(),
     ],
     module: {
         rules: [
-            { 
+            {
                 test: /\.css$/,
                 use: [
                         {
@@ -40,8 +34,8 @@ module.exports = {
                             esModule: true,
                             },
                         },
-                    'css-loader',
-                ], 
+                    'css-loader', //"sass-loader",
+                ],
             },
             {
                 test: /\.pug$/,
@@ -49,6 +43,10 @@ module.exports = {
                 options: {pretty: true}
             }
         ]
-    }
+    },
+    optimization: {
+    minimize: true,
+    minimizer: [new CssMinimizerPlugin() , new TerserWebpackPlugin({})],
+    },
   };
   
